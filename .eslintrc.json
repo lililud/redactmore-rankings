@@ -1,3 +1,18 @@
 {
-  "extends": "next/core-web-vitals"
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "next/core-web-vitals",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "eqeqeq": "off",
+    "curly": "error",
+    "quotes": ["error", "single"],
+    "no-multiple-empty-lines": ["error", {"max": 2, "maxEOF": 1, "maxBOF":  0}],
+    "object-curly-spacing": ["error", "always"],
+    "prettier/prettier": "error"
+  },
+  "plugins": ["prettier"],
+  "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*"]
 }

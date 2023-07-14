@@ -1,95 +1,57 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+'use client';
+import styles from './page.module.css';
+import React, { useEffect, useState } from 'react';
+import { Parallax, ParallaxLayer } from '@react-spring/parallax';
+import Link from 'next/link';
 
+const shuffle = require('lodash.shuffle');
+const ogData = [
+  { key: 0, name: 'mary', ranking: 2, color: 'pink' },
+  { key: 1, name: 'kyle', ranking: 0, color: 'blue' },
+  { key: 2, name: 'sieg', ranking: 1, color: 'red' },
+].sort((a, b) => a.rating - b.rating);
 export default function Home() {
+  const [start, setStart] = useState(false);
+  const [data, setData] = useState([...ogData]);
+  const alignCenter = { display: 'flex', alignItems: 'center' };
+  const [rankings, setRankings] = useState([0, 1, 2]);
+  useEffect(() => {
+    const t = setInterval(() => {
+      Math.random();
+      setRankings(() => {
+        const r = shuffle(rankings);
+        console.log('shuffling', r);
+        setData([...data.sort((a, b) => r[a.ranking] - r[b.ranking])]);
+        return r;
+      });
+    }, 2000);
+    const timer = setTimeout(() => {
+      setStart(true);
+    }, 1500);
+    const t2 = setTimeout(() => {
+      setRankings(rankings.sort());
+      setData(data.sort((a, b) => a.ranking - b.ranking));
+
+      clearInterval(t);
+    }, 10000);
+    return () => {
+      clearInterval(t);
+      clearTimeout(t2);
+      clearTimeout(timer);
+    };
+  }, []);
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
+    <div className={styles.background}>
+      <div className={styles.row}>
+        <img src="https://emoji.slack-edge.com/T0160NTJ2PM/kyle-intense/14a0fed13c0dc02e.png" />
         <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+          <h1>team rankings </h1>
+          <h2>by kylie [redact]more</h2>
         </div>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+      <Link className={styles.submit} href="/rankings">
+        enter rankings{' '}
+      </Link>
+    </div>
+  );
 }
