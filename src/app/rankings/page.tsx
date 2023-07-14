@@ -1,23 +1,16 @@
 'use client';
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
-import { Parallax, ParallaxLayer, IParallax } from '@react-spring/parallax';
+import React, { ReactNode, useState } from 'react';
 import styles from './page.module.css';
-import {
-  DndContext,
-  DragEndEvent,
-  rectIntersection,
-  useDraggable,
-  useDroppable,
-} from '@dnd-kit/core';
+import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import Draggable from '@/components/Draggable';
 import Droppable from '@/components/Droppable';
 // Little helpers ...
-const url2 = (name: string, wrap = false) =>
-  'https://emoji.slack-edge.com/T0160NTJ2PM/butt-sfw/8d38112653cbe405.gif';
-const url = (name: string, wrap = false) =>
-  `${wrap ? 'url(' : ''}https://awv3node-homepage.surge.sh/build/assets/${name}.svg${
-    wrap ? ')' : ''
-  }`;
+// const url2 = (name: string, wrap = false) =>
+//   'https://emoji.slack-edge.com/T0160NTJ2PM/butt-sfw/8d38112653cbe405.gif';
+// const url = (name: string, wrap = false) =>
+//   `${wrap ? 'url(' : ''}https://awv3node-homepage.surge.sh/build/assets/${name}.svg${
+//     wrap ? ')' : ''
+//   }`;
 const users = ['kylie', 'velosiegy', 'hannah b. fried', 'updoolian', 'mary', 'nima'];
 
 const colors: Record<string, string> = {
@@ -125,7 +118,7 @@ export default function App() {
               )}
             </div>
           </div>
-          <h2>today's ranking</h2>
+          <h2>today&apos;s ranking</h2>
           <div className={styles.rankingContainer}>
             {users.map((r, i) => {
               const user = rankingMap[`droppable-${i}`];
